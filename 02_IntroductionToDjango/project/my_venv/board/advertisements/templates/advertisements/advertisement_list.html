@@ -1,33 +1,7 @@
 <html>
-<header>
-    <h1>ПРОШЕЛ ВСЕ КУРСЫ СКИЛЛБОКС</h1>
-    <p>Продаю домашние задания</p>
-</header>
-<ul>
-    <li>
-        <a href='first_course'>
-        Домашние задания Питон Базы.
-        </a>
-    </li>
-    <li>
-        <a href='second_course'>
-        Для Advanced все задания.
-        </a>
-    </li>
-     <li>
-        <a href='third_course'>
-        Все ДЗ по Джанго.
-        </a>
-    </li>
-    <li>
-        <a href='fourth_course'>
-        Все задания по Data Science.
-        </a>
-    </li>
-    <li>
-        <a href='fifth_course'>
-        Итоговые проекты курсов.
-        </a>
-    </li>
-</ul>
+    <ul>
+     {% for advertisement in advertisements %}
+        <li>{{ advertisement }}</li>
+     {% endfor %}
+    </ul>
 </html>
