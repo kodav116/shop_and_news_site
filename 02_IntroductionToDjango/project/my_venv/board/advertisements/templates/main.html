@@ -1,0 +1,13 @@
+<html>
+    <ul>
+        <li><a href='about/'>{{ about }}</a></li>
+        <li><a href="advertisements/">{{ advertisements }}</a></li>
+        <li><a href="contacts/">{{ contacts }}</a></li>
+    </ul>
+    <form action = "" method = "POST">
+    {% csrf_token %}
+    <label for="form_submit">Выберите объявление: </label>
+    <input id="form_submit" type="text" name="form_submit">
+    <input type="submit" value="OK">
+    </form>
+</html>
