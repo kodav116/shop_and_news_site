@@ -1,27 +1,32 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from advertisements.models import Advertisement
 
 
 def advertisement_list(request, *args, **kwargs):
-    return render(request, 'advertisements/advertisement_list.html', {})
+    advertisements = Advertisement.objects.all()
+    adv1 = advertisements.get(title='Мое первое объявление')
+    adv2 = advertisements.get(title='Продам ладу')
+    return render(request, 'advertisements/advertisements.html', {
+        'advertisements': advertisements, 'adv1': adv1, 'adv2': adv2
+    })
 
 
-def first_course(request, *args, **kwargs):
-    return render(request, 'advertisements/first_course.html', {})
+def adv_one(request, *args, **kwargs):
+    advertisements = Advertisement.objects.all()
+    adv1 = advertisements.get(title='Мое первое объявление')
+    adv2 = advertisements.get(title='Продам ладу')
+    return render(request, 'advertisements/adv_one.html', {
+        'advertisements': advertisements, 'adv1': adv1, 'adv2': adv2
+    })
 
 
-def second_course(request, *args, **kwargs):
-    return render(request, 'advertisements/second_course.html', {})
+def adv_two(request, *args, **kwargs):
+    advertisements = Advertisement.objects.all()
+    adv1 = advertisements.get(title='Мое первое объявление')
+    adv2 = advertisements.get(title='Продам ладу')
+    return render(request, 'advertisements/adv_two.html', {
+        'advertisements': advertisements, 'adv1': adv1, 'adv2': adv2
+    })
 
-
-def third_course(request, *args, **kwargs):
-    return render(request, 'advertisements/third_course.html', {})
-
-
-def fourth_course(request, *args, **kwargs):
-    return render(request, 'advertisements/fourth_course.html', {})
-
-
-def fifth_course(request, *args, **kwargs):
-    return render(request, 'advertisements/fifth_course.html', {})
 

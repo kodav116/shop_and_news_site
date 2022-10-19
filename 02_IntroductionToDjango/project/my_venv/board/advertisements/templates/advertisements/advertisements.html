@@ -1,0 +1,23 @@
+<html>
+    <h1>Бесплатные объявления</h1>
+    {% if advertisements %}
+    <ul>
+        <li>
+          <a href='adv_one'>
+              <p>
+                  Заголовок: {{ adv1.title }} (Цена: {{adv1.price}}) руб. Рубрика: {{adv1.type}}
+              </p>
+          </a>
+        </li>
+        <li>
+          <a href="adv_two">
+              <p>
+                  Заголовок: {{ adv2.title }} (Цена: {{adv2.price}}) руб. Рубрика: {{adv2.type}}
+              </p>
+          </a>
+        </li>
+    </ul>
+    {% else %}
+    <p>Страница пуста.</p>
+    {% endif %}
+</html>
