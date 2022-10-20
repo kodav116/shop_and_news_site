@@ -1,0 +1,23 @@
+<html>
+    {% if advertisements %}
+    <ul>
+        <li>
+            Рубрика: {{adv2.type}} Заголовок: {{ adv2.title }} (Цена: {{adv2.price}}) руб.
+            <p>
+                Дата создания: {{ adv2.created_at }}
+            </p>
+            <p>
+                Дата последней правки: {{ adv2.updated_at }}
+            </p>
+            <p>
+                Кол-во просмотров: {{ adv2.views_count }}
+            </p>
+            <p>
+                Автор: {{ adv2.author.name }} Почта: {{ adv2.author.email }} Телефон: {{ adv2.author.phone }}
+            </p>
+        </li>
+    </ul>
+    {% else %}
+    <p>Страница пуста.</p>
+    {% endif %}
+</html>

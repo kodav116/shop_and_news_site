@@ -30,3 +30,12 @@ def adv_two(request, *args, **kwargs):
     })
 
 
+
+
+
+
+
+
+
+
+
