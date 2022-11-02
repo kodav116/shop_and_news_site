@@ -10,5 +10,5 @@ urlpatterns = [
     path('profiles/comment/', CommentaryFormView.as_view()),
     path('profiles/news_list/', NewsList.as_view()),
     path('profiles/<int:pk>/', NewsList.newsdetail, name='newsdetail'),
-    path('profiles/<int:pk>/', NewsList.news_comments, name='news_comments')
+    path('profiles/<int:pk>/', NewsList.newsdetail, name='newsdetail')
 ]

@@ -10,7 +10,7 @@ class News(models.Model):
 
 
 class Commentary(models.Model):
-    news_at = models.ForeignKey(News, on_delete=models.CASCADE)
+    news_at = models.ForeignKey(News, related_name='comments', on_delete=models.CASCADE)
     user_name = models.CharField(max_length=20)
     comment = models.CharField(max_length=150)
     created_at = models.DateField(auto_now_add=True)

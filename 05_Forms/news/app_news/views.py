@@ -31,7 +31,7 @@ class CommentaryFormView(View):
         return render(request, 'profiles/comment.html', context={'comment_form': comment_form})
 
 
-class NewsList(ListView):
+class NewsList(View):
 
     def get(self, request):
         return render(request, 'profiles/news_list.html', context={
@@ -40,35 +40,12 @@ class NewsList(ListView):
 
     def newsdetail(request, pk):
         news_report = News.objects.get(id=pk)
-        comment_form = CommentaryForm()
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.news_report = news_report(id=pk)
-            new_comment.save()
+        comment_form = CommentaryForm(request.POST)
+        form = comment_form
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.news_report = news_report
+            comment.save()
         return render(request, 'profiles/news_report.html', {'news_report': news_report,
-                                                             'comment_form': comment_form
-                                                             })
-
-    def news_comments(self, request, pk):
-        post = News.objects.get( News, status='published'
-                                 )
-
-        comments = post.comments.filter(active=True)
-
-        new_comment = None
-
-        if request.method == 'POST':
-            comment_form = CommentaryForm(data=request.POST)
-            if comment_form.is_valid():
-                new_comment = comment_form.save(commit=False)
-                new_comment.post = post(id=pk)
-                new_comment.save()
-        else:
-            comment_form = CommentaryForm()
-        return render(request,
-                      'profiles/comment.html/',
-                      {'post': post,
-                       'comments': comments,
-                       'new_comment': new_comment,
-                       'comment_form': comment_form,
-                       })
+                                                             'comment_form': comment_form,
+                                                             'comments': Commentary.objects.filter(news_at_id=pk)})
