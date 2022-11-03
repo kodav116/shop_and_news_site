@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class News(models.Model):
@@ -7,6 +8,9 @@ class News(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     is_active = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return reverse('newsdetail', args=[str(self.id)])
 
 
 class Commentary(models.Model):

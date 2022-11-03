@@ -2,7 +2,7 @@ from django.shortcuts import render
 from app_news.forms import NewsForm, CommentaryForm
 from app_news.models import News, Commentary
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import UpdateView
 
 
 class NewsFormView(View):
@@ -49,3 +49,9 @@ class NewsList(View):
         return render(request, 'profiles/news_report.html', {'news_report': news_report,
                                                              'comment_form': comment_form,
                                                              'comments': Commentary.objects.filter(news_at_id=pk)})
+
+
+class UpdateNewsView(UpdateView):
+    model = News
+    template_name = 'profiles/update_news.html/'
+    fields = '__all__'

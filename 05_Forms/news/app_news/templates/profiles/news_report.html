@@ -3,6 +3,7 @@
 {% block content %}
     <h2>{{ news_report.title }}</h2>
     {{ news_report.description }}
+    - <a href="{% url 'update_news' news_report.id %}">Edit</a>
 {% for comment in comments %}
   <div class="comment">
     <p class="info">
