@@ -1,0 +1,29 @@
+{% extends "profiles/news_list.html" %}
+
+{% block content %}
+    <h2>{{ news_report.title }}</h2>
+    {{ news_report.description }}
+    - <a href="{% url 'update_news' news_report.id %}">Edit</a>
+{% for comment in comments %}
+  <div class="comment">
+    <p class="info">
+      Comment {{ forloop.counter }} by {{ comment.user_name }}
+      {{ comment.created_at }}
+    </p>
+    {{ comment.comment|linebreaks }}
+  </div>
+  {% empty %}
+  <p>There are no comments yet.</p>
+{% endfor %}
+{% if new_comment %}
+  <h2>Your comment has been added.</h2>
+{% else %}
+  <h2>Add a new comment</h2>
+  <form action="." method="post">
+    {{ comment_form.as_p }}
+    {% csrf_token %}
+     <p><input type="submit" value="Add comment"></p>
+  </form>
+{% endif %}
+{% endblock %}
+
