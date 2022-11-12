@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib import admin
-from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, login_view, AnotherLoginView, MainView
+from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, login_view, AnotherLoginView, MainView, logout_view
 
 
 
@@ -13,5 +13,6 @@ urlpatterns = [
     path('profiles/<int:pk>/', NewsList.newsdetail, name='newsdetail'),
     path('profiles/edit/<int:pk>/', UpdateNewsView.as_view(), name='update_news'),
     path('profiles/login/', login_view, name='login'),
+    path('profiles/logout/', logout_view, name='logout'),
     path('profiles/another_login/', AnotherLoginView.as_view(), name='another_login')
 ]

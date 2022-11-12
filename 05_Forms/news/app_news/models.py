@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import truncatechars
@@ -28,7 +29,8 @@ class Commentary(models.Model):
         ('d', 'Admin_delete')
     ]
     news_at = models.ForeignKey(News, related_name='comments', on_delete=models.CASCADE)
-    user_name = models.CharField(max_length=20)
+    user_name = models.CharField(max_length=20, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     comment = models.CharField(max_length=150)
     created_at = models.DateField(auto_now_add=True)
     active = models.BooleanField(default=True)
@@ -38,7 +40,7 @@ class Commentary(models.Model):
         ordering = ['created_at']
 
     def __str__(self):
-        return f'Comment by {self.user_name} on {self.created_at}'
+        return f'Comment by {self.user} on {self.created_at}'
 
     @property
     def short_comment(self):

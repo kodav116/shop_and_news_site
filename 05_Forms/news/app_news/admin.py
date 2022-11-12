@@ -7,10 +7,10 @@ class NewsInLine(admin.StackedInline):
     model = News
     actions = ['mark_as_active', 'mark_as_inactive']
 
-    def mark_as_active(self):
+    def mark_as_active(self, request, queryset):
         queryset.update(is_active=True)
 
-    def mark_as_inactive(self):
+    def mark_as_inactive(self, request, queryset):
         queryset.update(is_active=False)
 
     mark_as_active.short_description = 'Перевести в статус Активные'

@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render
 from app_news.forms import NewsForm, CommentaryForm, AuthForm
@@ -48,7 +48,8 @@ class NewsList(View):
 
     def newsdetail(request, pk):
         news_report = News.objects.get(id=pk)
-        comment_form = CommentaryForm(request.POST)
+        comment_form = CommentaryForm(request.POST or None, prefix='comment',
+                                      is_authenticated=request.user.is_authenticated)
         form = comment_form
         if form.is_valid():
             comment = form.save(commit=False)
@@ -57,6 +58,13 @@ class NewsList(View):
         return render(request, 'profiles/news_report.html', {'news_report': news_report,
                                                              'comment_form': comment_form,
                                                              'comments': Commentary.objects.filter(news_at_id=pk)})
+
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 
 
 class UpdateNewsView(UpdateView):
@@ -91,3 +99,8 @@ def login_view(request):
 
 class AnotherLoginView(LoginView):
     template_name = 'profiles/login.html'
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponse('Вы успешно вышли из своего аккаунта.')
