@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render
-from app_news.forms import NewsForm, CommentaryForm, AuthForm
+from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm
 from app_news.models import News, Commentary
 from django.views import View
 from django.views.generic import UpdateView
@@ -48,23 +48,26 @@ class NewsList(View):
 
     def newsdetail(request, pk):
         news_report = News.objects.get(id=pk)
-        comment_form = CommentaryForm(request.POST or None, prefix='comment',
-                                      is_authenticated=request.user.is_authenticated)
-        form = comment_form
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.news_report = news_report
-            comment.save()
+        if request.user.is_authenticated:
+            comment_form = AuthCommentaryForm(request.POST)
+            form = comment_form
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.user_name = request.user.username
+                comment.news_report = news_report
+                comment.save()
+        else:
+            comment_form = CommentaryForm(request.POST)
+            form = comment_form
+            if form.is_valid():
+                form.cleaned_data['user_name'] = 'Anonymous'
+                comment = form.save(commit=False)
+                comment.user_name = comment.user_name + ' -Anonymous'
+                comment.news_report = news_report
+                comment.save()
         return render(request, 'profiles/news_report.html', {'news_report': news_report,
                                                              'comment_form': comment_form,
                                                              'comments': Commentary.objects.filter(news_at_id=pk)})
-
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
 
 
 class UpdateNewsView(UpdateView):

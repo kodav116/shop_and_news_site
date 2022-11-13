@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib import admin
-from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, login_view, AnotherLoginView, MainView, logout_view
+from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, \
+    login_view, AnotherLoginView, MainView, logout_view, AuthCommentaryForm
 
 
 
