@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-from django.shortcuts import render
-from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm
-from app_news.models import News, Commentary
+from django.shortcuts import render, redirect
+from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm
+from app_news.models import News, Commentary, Profile
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
@@ -20,10 +22,14 @@ class NewsFormView(View):
         return render(request, 'profiles/news.html', context={'news_form': news_form})
 
     def post(self, request):
-        news_form = NewsForm(request.POST)
-        if news_form.is_valid():
-            news_form.save()
-        return render(request, 'profiles/news.html', context={'news_form': news_form})
+        if request.user.has_perm('app_news.can_publish'):
+            news_form = NewsForm(request.POST)
+            if news_form.is_valid():
+                news_form.save()
+            return render(request, 'profiles/news.html', context={'news_form': news_form})
+        else:
+            raise PermissionDenied
+
 
 
 class CommentaryFormView(View):
@@ -107,3 +113,30 @@ class AnotherLoginView(LoginView):
 def logout_view(request):
     logout(request)
     return HttpResponse('Вы успешно вышли из своего аккаунта.')
+
+
+def register_view(request):
+    if request.method == "POST":
+        form = ExtendedRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            date_of_birth = form.cleaned_data.get('date_of_birth')
+            city = form.cleaned_data.get('city')
+            Profile.objects.create(
+                user=user,
+                city=city,
+                date_of_birth=date_of_birth
+            )
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = ExtendedRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
+
+
+class AccountView(View):
+    def get(self, request):
+        return render(request, 'users/account.html')

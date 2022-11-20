@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Аккаунт</title>
+</head>
+<body>
+<h2>Аккаунт</h2>
+    <p>Ник: {{request.user.username}}</p>
+    <p>Почта: {{request.user.email}}</p>
+    <p>Имя: {{ request.user.first_name }}</p>
+    <p>Фамилия: {{ request.user.last_name }}</p>
+</body>
+</html>

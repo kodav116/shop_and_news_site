@@ -22,7 +22,7 @@ class CommentaryInLine(admin.TabularInline):
 
 
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ['title', 'created_at', 'is_active']
+    list_display = ['title', 'created_at']
     search_fields = ['title', 'description']
     list_filter = ['created_at', 'is_active']
     inlines = [CommentaryInLine]

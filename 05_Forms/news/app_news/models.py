@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import truncatechars
+from taggit.managers import TaggableManager
 
 
 class News(models.Model):
@@ -15,6 +16,14 @@ class News(models.Model):
     updated_at = models.DateField(auto_now=True)
     is_active = models.BooleanField(default=False)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a')
+    tag = TaggableManager()
+
+    class Meta:
+        verbose_name = 'новость'
+        verbose_name_plural = 'новости'
+        permissions = (
+            ('can_publish', 'Может опубликовать'),
+        )
 
     def get_absolute_url(self):
         return reverse('newsdetail', args=[str(self.id)])
@@ -44,6 +53,12 @@ class Commentary(models.Model):
     @property
     def short_comment(self):
         return truncatechars(self.comment, 15)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    city = models.CharField(max_length=36, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
 
 
 
