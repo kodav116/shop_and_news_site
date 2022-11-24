@@ -1,18 +1,50 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm
-from app_news.models import News, Commentary, Profile
+from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, BlogForm
+from app_news.models import News, Commentary, Profile, BlogPost
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
 
 
 class MainView(View):
+
     def get(self, request):
         return render(request, 'profiles/main.html')
+
+
+class BlogFormView(View):
+
+    def get(self, request):
+        blog_form = BlogForm()
+        return render(request, 'blog/new_blog_post.html', context={'blog_form': blog_form})
+
+    def post(self, request):
+        if request.user.has_perm('app_news.can_publish'):
+            blog_form = BlogForm(request.POST)
+            if blog_form.is_valid():
+                order = blog_form.save(commit=False)
+                order.user = request.user
+                order.save()
+            return render(request, 'blog/new_blog_post.html', context={'blog_form': blog_form})
+        else:
+            raise PermissionDenied
+
+
+class BlogListView(View):
+
+    def get(self, request):
+        return render(request, 'blog/blog_list.html', context={
+            'blog_list': BlogPost.objects.filter(is_active=True)}
+                      )
+
+    def blogdetail(request, pk):
+        blog_post = BlogPost.objects.get(id=pk)
+        return render(request, 'blog/blog_detail.html', {'blog_post': blog_post})
 
 
 class NewsFormView(View):
@@ -29,7 +61,6 @@ class NewsFormView(View):
             return render(request, 'profiles/news.html', context={'news_form': news_form})
         else:
             raise PermissionDenied
-
 
 
 class CommentaryFormView(View):
@@ -79,7 +110,13 @@ class NewsList(View):
 class UpdateNewsView(UpdateView):
     model = News
     template_name = 'profiles/update_news.html/'
-    fields = '__all__'
+    fields = ['title', 'description']
+
+
+class UpdateUserView(UpdateView):
+    model = User
+    template_name = 'profiles/update_profile.html/'
+    fields = ['__all__']
 
 
 def login_view(request):

@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import truncatechars
-from taggit.managers import TaggableManager
 
 
 class News(models.Model):
@@ -16,7 +15,6 @@ class News(models.Model):
     updated_at = models.DateField(auto_now=True)
     is_active = models.BooleanField(default=False)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a')
-    tag = TaggableManager()
 
     class Meta:
         verbose_name = 'новость'
@@ -59,6 +57,20 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     city = models.CharField(max_length=36, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
+
+
+class BlogPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.CharField(max_length=500)
+    created_at = models.DateField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    @property
+    def short_post(self):
+        return truncatechars(self.post, 100)
 
 
 

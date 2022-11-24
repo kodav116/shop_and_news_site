@@ -1,5 +1,5 @@
 from django import forms
-from app_news.models import News, Commentary
+from app_news.models import News, Commentary, BlogPost
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
-        ordering = ('created_at')
+        ordering = ['created_at']
         fields = ['title', 'description']
 
 
@@ -21,6 +21,12 @@ class AuthCommentaryForm(forms.ModelForm):
     class Meta:
         model = Commentary
         fields = ['news_at', 'comment']
+
+
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ['description']
 
 
 class AuthForm(forms.Form):
