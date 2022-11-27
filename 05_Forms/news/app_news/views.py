@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, BlogForm
+from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, BlogForm,\
+    PostFileForm
 from app_news.models import News, Commentary, Profile, BlogPost
 from django.views import View
 from django.views.generic import UpdateView
@@ -20,19 +21,28 @@ class MainView(View):
 class BlogFormView(View):
 
     def get(self, request):
-        blog_form = BlogForm()
+        blog_form = PostFileForm()
         return render(request, 'blog/new_blog_post.html', context={'blog_form': blog_form})
 
     def post(self, request):
-        if request.user.has_perm('app_news.can_publish'):
-            blog_form = BlogForm(request.POST)
-            if blog_form.is_valid():
-                order = blog_form.save(commit=False)
-                order.user = request.user
-                order.save()
-            return render(request, 'blog/new_blog_post.html', context={'blog_form': blog_form})
+        if request.method == 'POST':
+            if request.user.has_perm('app_news.can_publish'):
+                blog_form = PostFileForm(request.POST, request.FILES)
+                if blog_form.is_valid():
+                    files = request.FILES.getlist('file_field')
+                    for f in files:
+                        instance = BlogPost(file=f)
+                        instance.user = request.user
+                        instance.save()
+                    order = blog_form.save(commit=False)
+                    order.user = request.user
+                    order.save()
+                    return redirect('/')
+            else:
+                raise PermissionDenied
         else:
-            raise PermissionDenied
+            blog_form = PostFileForm()
+        return render(request, 'blog/new_blog_post.html', context={'blog_form': blog_form})
 
 
 class BlogListView(View):
@@ -116,7 +126,8 @@ class UpdateNewsView(UpdateView):
 class UpdateUserView(UpdateView):
     model = User
     template_name = 'profiles/update_profile.html/'
-    fields = ['__all__']
+    fields = ['username', 'first_name', 'last_name']
+    success_url = '/'
 
 
 def login_view(request):

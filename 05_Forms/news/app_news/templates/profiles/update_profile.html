@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <title>Изменить профиль</title>
 </head>
-   <form method="post">
-       {% csrf_token %}
+   <form method="post">{% csrf_token %}
        {{ form.as_p }}
     <input type="submit" value="Update">
 </form>

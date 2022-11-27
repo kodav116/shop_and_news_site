@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django import forms
 from django.urls import reverse
 from django.template.defaultfilters import truncatechars
 
@@ -61,8 +62,9 @@ class Profile(models.Model):
 
 class BlogPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.CharField(max_length=500)
+    description = models.CharField(max_length=2000)
     created_at = models.DateField(auto_now_add=True)
+    file = models.FileField(blank=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -70,7 +72,8 @@ class BlogPost(models.Model):
 
     @property
     def short_post(self):
-        return truncatechars(self.post, 100)
+        return truncatechars(self.description, 100)
+
 
 
 

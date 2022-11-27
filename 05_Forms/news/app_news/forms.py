@@ -24,9 +24,17 @@ class AuthCommentaryForm(forms.ModelForm):
 
 
 class BlogForm(forms.ModelForm):
+
     class Meta:
         model = BlogPost
-        fields = ['description']
+        fields = ['description', ]
+
+
+class PostFileForm(BlogForm):
+    file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+    class Meta(BlogForm.Meta):
+        fields = BlogForm.Meta.fields + ['file']
 
 
 class AuthForm(forms.Form):

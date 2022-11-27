@@ -2,7 +2,7 @@
     <h2>Блог</h2>
     <ul>
         {% for blogs in blog_list %}
-            <li><a href="{% url 'blog_detail' blogs.id %}">{{ blogs.post }} </a></li>
+            <li><a href="{% url 'blogdetail' blogs.id %}">{{ blogs.short_post }} by {{ blogs.user }} </a></li>
         {% endfor %}
     </ul>
 {% endblock %}

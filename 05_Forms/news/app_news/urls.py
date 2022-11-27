@@ -1,5 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path
 from django.contrib import admin
+from django.conf import settings
 from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, \
     login_view, AnotherLoginView, MainView, logout_view, AuthCommentaryForm, register_view, AccountView, \
     UpdateUserView, BlogListView, BlogFormView
@@ -22,6 +24,5 @@ urlpatterns = [
     path('blog/blog_list/', BlogListView.as_view()),
     path('blog/<int:pk>/', BlogListView.blogdetail, name='blogdetail'),
     path('blog/new_blog_post/', BlogFormView.as_view(), name='new_blog_post'),
-    path('profiles/update_user/', UpdateUserView.as_view(), name='update_user'),
-
-]
+    path('profiles/update_user/<int:pk>/', UpdateUserView.as_view(), name='update_user'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

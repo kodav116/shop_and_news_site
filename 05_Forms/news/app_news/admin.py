@@ -54,7 +54,7 @@ class CommentaryAdmin(admin.ModelAdmin):
 
 
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ['user', 'description', 'created_at']
+    list_display = ['user', 'description', 'created_at', 'file']
     list_filter = ['user']
 
 
