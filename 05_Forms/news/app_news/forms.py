@@ -1,5 +1,5 @@
 from django import forms
-from app_news.models import News, Commentary, BlogPost
+from app_news.models import News, Commentary, BlogPost, BlogImage
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 

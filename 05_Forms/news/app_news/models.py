@@ -60,11 +60,15 @@ class Profile(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
 
 
+class BlogImage(models.Model):
+    file = models.FileField()
+
+
 class BlogPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=2000)
     created_at = models.DateField(auto_now_add=True)
-    file = models.FileField(blank=True)
+    file = models.ManyToManyField(BlogImage, blank=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -73,8 +77,6 @@ class BlogPost(models.Model):
     @property
     def short_post(self):
         return truncatechars(self.description, 100)
-
-
 
 
 
