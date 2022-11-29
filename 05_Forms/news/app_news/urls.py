@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, \
     login_view, AnotherLoginView, MainView, logout_view, AuthCommentaryForm, register_view, AccountView, \
-    UpdateUserView, BlogListView, BlogFormView
+    UpdateUserView, BlogListView, BlogFormView, update_blog
 
 
 
@@ -25,4 +25,5 @@ urlpatterns = [
     path('blog/<int:pk>/', BlogListView.blogdetail, name='blogdetail'),
     path('blog/new_blog_post/', BlogFormView.as_view(), name='new_blog_post'),
     path('profiles/update_user/<int:pk>/', UpdateUserView.as_view(), name='update_user'),
+    path('blog/upload_blog_posts', update_blog, name='update_blog'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

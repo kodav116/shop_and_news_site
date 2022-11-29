@@ -1,11 +1,13 @@
+from _csv import reader
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, BlogForm,\
-    PostFileForm
+from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, \
+    PostFileForm, UploadBlogForm
 from app_news.models import News, Commentary, Profile, BlogPost
 from django.views import View
 from django.views.generic import UpdateView
@@ -55,6 +57,26 @@ class BlogListView(View):
     def blogdetail(request, pk):
         blog_post = BlogPost.objects.get(id=pk)
         return render(request, 'blog/blog_detail.html', {'blog_post': blog_post})
+
+
+def update_blog(request):
+    if request.method == 'POST':
+        upload_blog_form = UploadBlogForm(request.POST, request.FILES)
+        if upload_blog_form.is_valid():
+            blog_file = upload_blog_form.cleaned_data['file'].read()
+            blog_str = blog_file.decode('latin-1').split('\n')
+            csv_reader = reader(blog_str, delimiter=';', quotechar='"')
+            for row in csv_reader:
+                BlogPost.objects.filter(created_at=row[0]).update(description=row[1])
+            return HttpResponse(content='Посты добавлены', status=200)
+    else:
+        upload_blog_form = UploadBlogForm()
+
+    context = {
+        'form': upload_blog_form
+    }
+    return render(request, 'blog/upload_blog_posts.html', context=context)
+
 
 
 class NewsFormView(View):

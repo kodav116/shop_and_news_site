@@ -2,4 +2,7 @@
 
 {% block content %}
 <p>{{ blog_post.user }}: {{ blog_post.description }}</p>
+    {% for a in blog_post.file.all %}
+        <img src="{{ a.file.url }}">
+    {% endfor %}
 {% endblock %}

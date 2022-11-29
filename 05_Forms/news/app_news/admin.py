@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_news.models import News, Commentary, BlogPost
+from app_news.models import News, Commentary, BlogPost, BlogImage
 from django.template.defaultfilters import truncatechars
 
 
@@ -58,6 +58,11 @@ class BlogAdmin(admin.ModelAdmin):
     list_filter = ['user']
 
 
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['file']
+
+
 admin.site.register(BlogPost, BlogAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Commentary, CommentaryAdmin)
+admin.site.register(BlogImage, ImageAdmin)

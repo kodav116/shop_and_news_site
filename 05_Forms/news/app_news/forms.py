@@ -23,18 +23,39 @@ class AuthCommentaryForm(forms.ModelForm):
         fields = ['news_at', 'comment']
 
 
-class BlogForm(forms.ModelForm):
-
+class PostFileForm(forms.ModelForm):
     class Meta:
         model = BlogPost
         fields = ['description', ]
 
+    files = forms.ModelMultipleChoiceField(queryset=BlogImage.objects.all())
 
-class PostFileForm(BlogForm):
-    file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    def __init__(self, *args, **kwargs):
+        if kwargs.get('instance'):
+            initial = kwargs.setdefault('initial', {})
+            initial['files'] = [t.pk for t in kwargs['instance'].blogimage_set.all()]
 
-    class Meta(BlogForm.Meta):
-        fields = BlogForm.Meta.fields + ['file']
+        forms.ModelForm.__init__(self, *args, **kwargs)
+
+    def save(self, commit=True):
+        instance = forms.ModelForm.save(self, False)
+        old_save_m2m = self.save_m2m
+
+        def save_m2m():
+            old_save_m2m()
+            instance.blogimage_set.clear()
+            instance.blogimage_set.add(*self.cleaned_data['files'])
+        self.save_m2m = save_m2m
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
+
+
+class UploadBlogForm(forms.Form):
+    file = forms.FileField()
 
 
 class AuthForm(forms.Form):
