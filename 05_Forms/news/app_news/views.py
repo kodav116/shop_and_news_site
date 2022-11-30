@@ -1,18 +1,82 @@
+from _csv import reader
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm
-from app_news.models import News, Commentary, Profile
+from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, \
+    PostFileForm, UploadBlogForm
+from app_news.models import News, Commentary, Profile, BlogPost
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
 
 
 class MainView(View):
+
     def get(self, request):
         return render(request, 'profiles/main.html')
+
+
+class BlogFormView(View):
+
+    def get(self, request):
+        blog_form = PostFileForm()
+        return render(request, 'blog/new_blog_post.html', context={'blog_form': blog_form})
+
+    def post(self, request):
+        if request.method == 'POST':
+            if request.user.has_perm('app_news.can_publish'):
+                blog_form = PostFileForm(request.POST, request.FILES)
+                if blog_form.is_valid():
+                    files = request.FILES.getlist('file_field')
+                    for f in files:
+                        instance = BlogPost(file=f)
+                        instance.user = request.user
+                        instance.save()
+                    order = blog_form.save(commit=False)
+                    order.user = request.user
+                    order.save()
+                    return redirect('/')
+            else:
+                raise PermissionDenied
+        else:
+            blog_form = PostFileForm()
+        return render(request, 'blog/new_blog_post.html', context={'blog_form': blog_form})
+
+
+class BlogListView(View):
+
+    def get(self, request):
+        return render(request, 'blog/blog_list.html', context={
+            'blog_list': BlogPost.objects.filter(is_active=True)}
+                      )
+
+    def blogdetail(request, pk):
+        blog_post = BlogPost.objects.get(id=pk)
+        return render(request, 'blog/blog_detail.html', {'blog_post': blog_post})
+
+
+def update_blog(request):
+    if request.method == 'POST':
+        upload_blog_form = UploadBlogForm(request.POST, request.FILES)
+        if upload_blog_form.is_valid():
+            blog_file = upload_blog_form.cleaned_data['file'].read()
+            blog_str = blog_file.decode('latin-1').split('\n')
+            csv_reader = reader(blog_str, delimiter=';', quotechar='"')
+            for row in csv_reader:
+                BlogPost.objects.filter(created_at=row[0]).update(description=row[1])
+            return HttpResponse(content='Посты добавлены', status=200)
+    else:
+        upload_blog_form = UploadBlogForm()
+
+    context = {
+        'form': upload_blog_form
+    }
+    return render(request, 'blog/upload_blog_posts.html', context=context)
+
 
 
 class NewsFormView(View):
@@ -29,7 +93,6 @@ class NewsFormView(View):
             return render(request, 'profiles/news.html', context={'news_form': news_form})
         else:
             raise PermissionDenied
-
 
 
 class CommentaryFormView(View):
@@ -79,7 +142,14 @@ class NewsList(View):
 class UpdateNewsView(UpdateView):
     model = News
     template_name = 'profiles/update_news.html/'
-    fields = '__all__'
+    fields = ['title', 'description']
+
+
+class UpdateUserView(UpdateView):
+    model = User
+    template_name = 'profiles/update_profile.html/'
+    fields = ['username', 'first_name', 'last_name']
+    success_url = '/'
 
 
 def login_view(request):

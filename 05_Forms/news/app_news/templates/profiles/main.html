@@ -7,8 +7,9 @@
 <body>
 {% if request.user.is_authenticated %}
     <h3>Добро пожаловать на сайт, {{ request.user.username }}!</h3>
-    <p>Дата рождения: {{ request.user.profile.date_of_birth }}</p>
-    <p>Город: {{ request.user.profile.city }}</p>
+    <p>Имя: {{ request.user.first_name }}</p>
+    <p>Фамилия: {{ request.user.last_name }}</p>
+    <a href="{% url 'update_user' request.user.id %}">Edit</a>
 {% else %}
     <h3>Вы неавторизованы на нашем сайте.</h3>
     <a href="{% url 'login' %}">Войти</a>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_news.models import News, Commentary
+from app_news.models import News, Commentary, BlogPost, BlogImage
 from django.template.defaultfilters import truncatechars
 
 
@@ -53,5 +53,16 @@ class CommentaryAdmin(admin.ModelAdmin):
     mark_as_deletable.short_description = 'Удалить комментарий'
 
 
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ['user', 'description', 'created_at']
+    list_filter = ['user']
+
+
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['file']
+
+
+admin.site.register(BlogPost, BlogAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Commentary, CommentaryAdmin)
+admin.site.register(BlogImage, ImageAdmin)
