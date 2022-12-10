@@ -1,0 +1,172 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-10 23:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\app_news\models.py:14
+msgid "название"
+msgstr "tile"
+
+#: .\app_news\models.py:15 .\app_news\models.py:42
+msgid "тело"
+msgstr "body"
+
+#: .\app_news\models.py:16 .\app_news\models.py:43
+msgid "дата создания"
+msgstr "created at"
+
+#: .\app_news\models.py:18
+#, fuzzy
+#| msgid "Добавить новость"
+msgid "активность"
+msgstr "Add news"
+
+#: .\app_news\models.py:22 .\app_news\models.py:40
+#, fuzzy
+#| msgid "Добавить новость"
+msgid "новость"
+msgstr "Add news"
+
+#: .\app_news\models.py:23
+msgid "новости"
+msgstr "news"
+
+#: .\app_news\models.py:41
+#, fuzzy
+#| msgid "Имя"
+msgid "имя"
+msgstr "Name"
+
+#: .\app_news\models.py:48
+msgid "комментарий"
+msgstr "comment"
+
+#: .\app_news\models.py:49
+msgid "комментарии"
+msgstr "comments"
+
+#: .\app_news\models.py:71
+msgid "пользователь"
+msgstr "user"
+
+#: .\app_news\models.py:72
+msgid "пост"
+msgstr "post"
+
+#: .\app_news\models.py:78
+#, fuzzy
+#| msgid "Изменить профиль"
+msgid "профиль"
+msgstr "Change profile"
+
+#: .\app_news\models.py:79
+msgid "профили"
+msgstr "profiles"
+
+#: .\app_news\templates\blog\blog_list.html:3
+msgid "Блог"
+msgstr "Blog"
+
+#: .\app_news\templates\blog\new_blog_post.html:6
+msgid "Добавить пост"
+msgstr "Add post"
+
+#: .\app_news\templates\blog\upload_blog_posts.html:6
+msgid "Загрузка постов"
+msgstr "Upload post"
+
+#: .\app_news\templates\blog\upload_blog_posts.html:12
+msgid "Загрузить посты"
+msgstr "Upload posts"
+
+#: .\app_news\templates\profiles\login.html:6
+msgid "Логин"
+msgstr "Login"
+
+#: .\app_news\templates\profiles\login.html:9
+msgid "Страница входа"
+msgstr "Entry page"
+
+#: .\app_news\templates\profiles\main.html:6
+msgid "Главная страница"
+msgstr "Main page"
+
+#: .\app_news\templates\profiles\main.html:10
+msgid "Добро пожаловать на сайт,"
+msgstr "Welcome to our site,"
+
+#: .\app_news\templates\profiles\main.html:11
+msgid "Имя"
+msgstr "Name"
+
+#: .\app_news\templates\profiles\main.html:12
+msgid "Фамилия"
+msgstr "Last name"
+
+#: .\app_news\templates\profiles\main.html:15
+msgid "Вы неавторизованы на нашем сайте."
+msgstr "You are not authorised on our site."
+
+#: .\app_news\templates\profiles\main.html:18
+msgid "Я - главная страница!"
+msgstr "This is the main page!"
+
+#: .\app_news\templates\profiles\news.html:6
+msgid "Добавить новость"
+msgstr "Add news"
+
+#: .\app_news\templates\profiles\news.html:12
+msgid "Отправить новость"
+msgstr "Send news"
+
+#: .\app_news\templates\profiles\news_list.html:3
+msgid "Новостная лента"
+msgstr "News bulletin"
+
+#: .\app_news\templates\profiles\update_news.html:7
+msgid "Изменить новость"
+msgstr "Change news"
+
+#: .\app_news\templates\profiles\update_profile.html:7
+msgid "Изменить профиль"
+msgstr "Change profile"
+
+#: .\app_news\templates\users\account.html:6
+#: .\app_news\templates\users\account.html:9
+msgid "Аккаунт"
+msgstr "Account"
+
+#: .\app_news\templates\users\account.html:10
+msgid "Ник:"
+msgstr "Profile name:"
+
+#: .\app_news\templates\users\account.html:11
+msgid "Почта:"
+msgstr "Email:"
+
+#: .\app_news\templates\users\account.html:12
+msgid "Имя:"
+msgstr "Name:"
+
+#: .\app_news\templates\users\account.html:13
+msgid "Фамилия:"
+msgstr "Last name:"
+
+#: .\app_news\templates\users\register.html:6
+msgid "Регистрация"
+msgstr "Register"

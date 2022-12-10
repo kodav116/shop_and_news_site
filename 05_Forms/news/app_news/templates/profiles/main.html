@@ -1,19 +1,44 @@
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Главная страница</title>
+    <title>{% trans 'Главная страница' %}</title>
 </head>
 <body>
 {% if request.user.is_authenticated %}
-    <h3>Добро пожаловать на сайт, {{ request.user.username }}!</h3>
-    <p>Имя: {{ request.user.first_name }}</p>
-    <p>Фамилия: {{ request.user.last_name }}</p>
+    <h3>{% trans 'Добро пожаловать на сайт,' %} {{ request.user.username }}!</h3>
+    <p>{% trans 'Имя' %}: {{ request.user.first_name }}</p>
+    <p>{% trans 'Фамилия' %}: {{ request.user.last_name }}</p>
     <a href="{% url 'update_user' request.user.id %}">Edit</a>
 {% else %}
-    <h3>Вы неавторизованы на нашем сайте.</h3>
+    <h3>{% trans 'Вы неавторизованы на нашем сайте.' %}</h3>
     <a href="{% url 'login' %}">Войти</a>
 {% endif %}
-<h2>Я - главная страница!</h2>
+<h2>{% trans 'Я - главная страница!' %}</h2>
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+Language code: {{ lang.code }}<br>
+Name of language: {{ lang.name_local }}<br>
+Name in English: {{ lang.name }}<br>
+Bi-directional: {{ lang.bidi }}<br>
+Name in the active language: {{ lang.name_translated }}<br>
+
+
+<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+    <input name="next" type="hidden" value="{{ redirect_to }}">
+    <select name="language">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                {{ language.name_local }} ({{ language.code }})
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Go">
+</form>
 </body>
 </html>

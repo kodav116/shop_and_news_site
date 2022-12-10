@@ -1,11 +1,12 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Логин</title>
+    <title>{% trans 'Логин' %}</title>
 </head>
 <body>
-<h2>Страница входа</h2>
+<h2>{% trans 'Страница входа' %}</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

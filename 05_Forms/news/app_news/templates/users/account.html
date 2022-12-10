@@ -1,14 +1,15 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Аккаунт</title>
+    <title>{% trans 'Аккаунт' %}</title>
 </head>
 <body>
-<h2>Аккаунт</h2>
-    <p>Ник: {{request.user.username}}</p>
-    <p>Почта: {{request.user.email}}</p>
-    <p>Имя: {{ request.user.first_name }}</p>
-    <p>Фамилия: {{ request.user.last_name }}</p>
+<h2>{% trans 'Аккаунт' %}</h2>
+    <p>{% trans 'Ник:' %} {{request.user.username}}</p>
+    <p>{% trans 'Почта:' %} {{request.user.email}}</p>
+    <p>{% trans 'Имя:' %} {{ request.user.first_name }}</p>
+    <p>{% trans 'Фамилия:' %} {{ request.user.last_name }}</p>
 </body>
 </html>
