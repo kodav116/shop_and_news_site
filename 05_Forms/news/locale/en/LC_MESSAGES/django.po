@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-10 23:50+0300\n"
+"POT-Creation-Date: 2022-12-10 23:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: .\app_news\models.py:14
 msgid "название"
-msgstr "tile"
+msgstr "name"
 
 #: .\app_news\models.py:15 .\app_news\models.py:42
 msgid "тело"
@@ -31,26 +31,20 @@ msgid "дата создания"
 msgstr "created at"
 
 #: .\app_news\models.py:18
-#, fuzzy
-#| msgid "Добавить новость"
 msgid "активность"
-msgstr "Add news"
+msgstr "is active"
 
 #: .\app_news\models.py:22 .\app_news\models.py:40
-#, fuzzy
-#| msgid "Добавить новость"
 msgid "новость"
-msgstr "Add news"
+msgstr "news post"
 
 #: .\app_news\models.py:23
 msgid "новости"
 msgstr "news"
 
 #: .\app_news\models.py:41
-#, fuzzy
-#| msgid "Имя"
 msgid "имя"
-msgstr "Name"
+msgstr "name"
 
 #: .\app_news\models.py:48
 msgid "комментарий"
@@ -69,10 +63,8 @@ msgid "пост"
 msgstr "post"
 
 #: .\app_news\models.py:78
-#, fuzzy
-#| msgid "Изменить профиль"
 msgid "профиль"
-msgstr "Change profile"
+msgstr "profile"
 
 #: .\app_news\models.py:79
 msgid "профили"
@@ -88,11 +80,11 @@ msgstr "Add post"
 
 #: .\app_news\templates\blog\upload_blog_posts.html:6
 msgid "Загрузка постов"
-msgstr "Upload post"
+msgstr "Add posts"
 
 #: .\app_news\templates\blog\upload_blog_posts.html:12
 msgid "Загрузить посты"
-msgstr "Upload posts"
+msgstr "Download posts"
 
 #: .\app_news\templates\profiles\login.html:6
 msgid "Логин"
@@ -100,7 +92,7 @@ msgstr "Login"
 
 #: .\app_news\templates\profiles\login.html:9
 msgid "Страница входа"
-msgstr "Entry page"
+msgstr "Login page"
 
 #: .\app_news\templates\profiles\main.html:6
 msgid "Главная страница"
@@ -153,7 +145,7 @@ msgstr "Account"
 
 #: .\app_news\templates\users\account.html:10
 msgid "Ник:"
-msgstr "Profile name:"
+msgstr "User name:"
 
 #: .\app_news\templates\users\account.html:11
 msgid "Почта:"
