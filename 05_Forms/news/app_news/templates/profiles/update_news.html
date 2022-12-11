@@ -1,9 +1,10 @@
+{% load i18n %}
 {% block content %}
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Изменить новость</title>
+    <title>{% trans 'Изменить новость' %}</title>
 </head>
    <form method="post">{% csrf_token %}
     {{ form.as_p }}

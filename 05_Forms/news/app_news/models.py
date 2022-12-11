@@ -3,6 +3,7 @@ from django.db import models
 from django import forms
 from django.urls import reverse
 from django.template.defaultfilters import truncatechars
+from django.utils.translation import gettext_lazy as _
 
 
 class News(models.Model):
@@ -10,16 +11,16 @@ class News(models.Model):
         ('a', 'Active'),
         ('i', 'Inactive')
     ]
-    title = models.CharField(max_length=50)
-    description = models.CharField(max_length=150)
-    created_at = models.DateField(auto_now_add=True)
+    title = models.CharField(max_length=50, verbose_name=_('название'))
+    description = models.CharField(max_length=150, verbose_name=_('тело'))
+    created_at = models.DateField(auto_now_add=True, verbose_name=_('дата создания'))
     updated_at = models.DateField(auto_now=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False, verbose_name=_('активность'))
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='a')
 
     class Meta:
-        verbose_name = 'новость'
-        verbose_name_plural = 'новости'
+        verbose_name = _('новость')
+        verbose_name_plural = _('новости')
         permissions = (
             ('can_publish', 'Может опубликовать'),
         )
@@ -36,14 +37,16 @@ class Commentary(models.Model):
         ('p', 'Admin_pass'),
         ('d', 'Admin_delete')
     ]
-    news_at = models.ForeignKey(News, related_name='comments', on_delete=models.CASCADE)
-    user_name = models.CharField(max_length=20)
-    comment = models.CharField(max_length=150)
-    created_at = models.DateField(auto_now_add=True)
+    news_at = models.ForeignKey(News, related_name='comments', on_delete=models.CASCADE, verbose_name=_('новость'))
+    user_name = models.CharField(max_length=20, verbose_name=_('имя'))
+    comment = models.CharField(max_length=150, verbose_name=_('тело'))
+    created_at = models.DateField(auto_now_add=True, verbose_name=_('дата создания'))
     active = models.BooleanField(default=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='p')
 
     class Meta:
+        verbose_name = _('комментарий')
+        verbose_name_plural = _('комментарии')
         ordering = ['created_at']
 
     def __str__(self):
@@ -65,13 +68,15 @@ class BlogImage(models.Model):
 
 
 class BlogPost(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.CharField(max_length=2000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('пользователь'))
+    description = models.CharField(max_length=2000, verbose_name=_('пост'))
     created_at = models.DateField(auto_now_add=True)
     file = models.ManyToManyField(BlogImage, blank=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
+        verbose_name = _('профиль')
+        verbose_name_plural = _('профили')
         ordering = ['created_at']
 
     @property

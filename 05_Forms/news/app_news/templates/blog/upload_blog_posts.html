@@ -1,14 +1,15 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Загрузка постов</title>
+    <title>{% trans 'Загрузка постов' %}</title>
 </head>
 <body>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Загрузить посты</button>
+    <button type="submit">{% trans 'Загрузить посты' %}</button>
 </form>
 </body>
 </html>

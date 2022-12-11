@@ -1,5 +1,5 @@
 from django.conf.urls.static import static
-from django.urls import path
+from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, \
@@ -7,8 +7,8 @@ from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNew
     UpdateUserView, BlogListView, BlogFormView, update_blog
 
 
-
 urlpatterns = [
+    path('i18n', include('django.conf.urls.i18n')),
     path('', MainView.as_view(), name='main'),
     path('admin/', admin.site.urls),
     path('profiles/news/', NewsFormView.as_view()),

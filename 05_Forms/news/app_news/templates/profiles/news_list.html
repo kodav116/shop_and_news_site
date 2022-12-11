@@ -1,6 +1,6 @@
-
+{% load i18n %}
 {% block content %}
-    <h2>Новостная лента</h2>
+    <h2>{% trans 'Новостная лента' %}</h2>
     <ul>
         {% for news in news_list %}
             <li><a href="{% url 'newsdetail' news.id %}">{{ news.title }} </a></li>
