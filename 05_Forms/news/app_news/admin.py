@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_news.models import News, Commentary, BlogPost, BlogImage
+from app_news.models import News, Commentary, BlogPost, BlogImage, Offers
 from django.template.defaultfilters import truncatechars
 
 
@@ -62,7 +62,13 @@ class ImageAdmin(admin.ModelAdmin):
     list_display = ['file']
 
 
+class OffersAdmin(admin.ModelAdmin):
+    list_display = ['user', 'discounts', 'specials']
+    list_filter = ['user', 'discounts', 'specials']
+
+
 admin.site.register(BlogPost, BlogAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Commentary, CommentaryAdmin)
 admin.site.register(BlogImage, ImageAdmin)
+admin.site.register(Offers, OffersAdmin)

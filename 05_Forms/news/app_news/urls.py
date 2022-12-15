@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, \
     login_view, AnotherLoginView, MainView, logout_view, AuthCommentaryForm, register_view, AccountView, \
-    UpdateUserView, BlogListView, BlogFormView, update_blog
+    UpdateUserView, BlogListView, BlogFormView, update_blog, OffersView
 
 
 urlpatterns = [
@@ -21,6 +21,7 @@ urlpatterns = [
     path('profiles/another_login/', AnotherLoginView.as_view(), name='another_login'),
     path('users/register/', register_view, name='register'),
     path('users/account/', AccountView.as_view(), name='account'),
+    path('users/loyalty_cabinet/', OffersView.as_view(), name='loyalty_cabinet'),
     path('blog/blog_list/', BlogListView.as_view()),
     path('blog/<int:pk>/', BlogListView.blogdetail, name='blogdetail'),
     path('blog/new_blog_post/', BlogFormView.as_view(), name='new_blog_post'),

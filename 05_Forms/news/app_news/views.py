@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, \
     PostFileForm, UploadBlogForm
-from app_news.models import News, Commentary, Profile, BlogPost
+from app_news.models import News, Commentary, Profile, BlogPost, Offers
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
@@ -208,5 +208,20 @@ def register_view(request):
 
 
 class AccountView(View):
+
     def get(self, request):
         return render(request, 'users/account.html')
+
+
+class OffersView(View):
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            context = {'discount_list': Offers.discounts.objects.filter(user=request.user),
+                       'specials_list': Offers.specials.objects.filter(user=request.user),
+                       'history_list': Offers.history.objects.filter(user=request.user),
+                       'shops_list': Offers.shops.objects.filter(user=request.user)}
+            return render(request, 'users/loyalty_cabinet.html', context=context)
+        else:
+            raise PermissionDenied
+

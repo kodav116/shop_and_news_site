@@ -84,6 +84,15 @@ class BlogPost(models.Model):
         return truncatechars(self.description, 100)
 
 
+class Offers(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('пользователь'))
+    balance = models.IntegerField(default=0)
+    discounts = models.CharField(max_length=100, verbose_name=_('скидки'))
+    specials = models.CharField(max_length=100, verbose_name=_('предложения'))
+    history = models.CharField(max_length=100, verbose_name=_('история'))
+    shops = models.CharField(max_length=20, verbose_name=_('магазины'))
+
+
 
 
 

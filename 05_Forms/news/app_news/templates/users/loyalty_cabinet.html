@@ -1,0 +1,28 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans 'Кабинет лояльности' %}</title>
+</head>
+<body>
+<h2>{% trans 'Ваши предложения:' %}</h2>
+        <p>{% trans 'Ваш баланс:' %} {{ offers.balance }}</p>
+        <p>{% trans 'Ваши скидки:' %}</p>
+        {% for discounts1 in discount_list %}
+            <p>{{ discounts1.discounts }}</p>
+        {% endfor %}
+        <p>{% trans 'Ваши предложения:' %}</p>
+        {% for specials1 in specials_list %}
+            <p>{{ specials1.specials }}</p>
+        {% endfor %}
+        <p>{% trans 'Ваша история покупок:' %}</p>
+        {% for history1 in history_list %}
+            <p>{{ history1.history }}</p>
+        {% endfor %}
+        <p>{% trans 'Ваши избранные магазины:' %}</p>
+        {% for shops1 in shops_list %}
+            <p>{{ shops1.shops }}</p>
+        {% endfor %}
+</body>
+</html>
