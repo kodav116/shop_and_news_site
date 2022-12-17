@@ -1,5 +1,6 @@
 from django.contrib import admin
 from app_news.models import News, Commentary, BlogPost, BlogImage, Offers
+from django.contrib.auth.models import User
 from django.template.defaultfilters import truncatechars
 
 
@@ -70,5 +71,4 @@ class OffersAdmin(admin.ModelAdmin):
 admin.site.register(BlogPost, BlogAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Commentary, CommentaryAdmin)
-admin.site.register(BlogImage, ImageAdmin)
 admin.site.register(Offers, OffersAdmin)

@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load cache %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +7,13 @@
     <title>{% trans 'Кабинет лояльности' %}</title>
 </head>
 <body>
-<h2>{% trans 'Ваши предложения:' %}</h2>
-        <p>{% trans 'Ваш баланс:' %} {{ offers.balance }}</p>
+{% cache 500 footer %}
+<h2>{% trans 'Программа лояльности' %}</h2>
+        <p>{% trans 'Ваш баланс:' %}</p>
+        {% for balance1 in balance %}
+            <p>{{ balance1.balance }}</p>
+        {% endfor %}
+        {% endcache %}
         <p>{% trans 'Ваши скидки:' %}</p>
         {% for discounts1 in discount_list %}
             <p>{{ discounts1.discounts }}</p>

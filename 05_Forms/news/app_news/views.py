@@ -12,6 +12,7 @@ from app_news.models import News, Commentary, Profile, BlogPost, Offers
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
+from django.core.cache import cache
 
 
 class MainView(View):
@@ -217,10 +218,15 @@ class OffersView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            context = {'discount_list': Offers.discounts.objects.filter(user=request.user),
-                       'specials_list': Offers.specials.objects.filter(user=request.user),
-                       'history_list': Offers.history.objects.filter(user=request.user),
-                       'shops_list': Offers.shops.objects.filter(user=request.user)}
+            specials_cache_key = 'specials:'.format(request.user)
+            if specials_cache_key not in cache:
+                specials = Offers.objects.filter(user=request.user).values('specials')
+                cache.set(specials_cache_key, specials, 30*60)
+            context = {'discount_list': Offers.objects.filter(user=request.user).values('discounts'),
+                       'specials_list': Offers.objects.filter(user=request.user).values('specials'),
+                       'history_list': Offers.objects.filter(user=request.user).values('history'),
+                       'shops_list': Offers.objects.filter(user=request.user).values('shops'),
+                       'balance': Offers.objects.filter(user=request.user).values('balance')}
             return render(request, 'users/loyalty_cabinet.html', context=context)
         else:
             raise PermissionDenied
