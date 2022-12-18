@@ -8,10 +8,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, \
     PostFileForm, UploadBlogForm
-from app_news.models import News, Commentary, Profile, BlogPost
+from app_news.models import News, Commentary, Profile, BlogPost, Offers
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
+from django.core.cache import cache
 
 
 class MainView(View):
@@ -208,5 +209,25 @@ def register_view(request):
 
 
 class AccountView(View):
+
     def get(self, request):
         return render(request, 'users/account.html')
+
+
+class OffersView(View):
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            specials_cache_key = 'specials:'.format(request.user)
+            if specials_cache_key not in cache:
+                specials = Offers.objects.filter(user=request.user).values('specials')
+                cache.set(specials_cache_key, specials, 30*60)
+            context = {'discount_list': Offers.objects.filter(user=request.user).values('discounts'),
+                       'specials_list': Offers.objects.filter(user=request.user).values('specials'),
+                       'history_list': Offers.objects.filter(user=request.user).values('history'),
+                       'shops_list': Offers.objects.filter(user=request.user).values('shops'),
+                       'balance': Offers.objects.filter(user=request.user).values('balance')}
+            return render(request, 'users/loyalty_cabinet.html', context=context)
+        else:
+            raise PermissionDenied
+

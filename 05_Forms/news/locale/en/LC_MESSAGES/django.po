@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-10 23:52+0300\n"
+"POT-Creation-Date: 2022-12-17 23:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr "comment"
 msgid "комментарии"
 msgstr "comments"
 
-#: .\app_news\models.py:71
+#: .\app_news\models.py:71 .\app_news\models.py:88
 msgid "пользователь"
 msgstr "user"
 
@@ -69,6 +69,30 @@ msgstr "profile"
 #: .\app_news\models.py:79
 msgid "профили"
 msgstr "profiles"
+
+#: .\app_news\models.py:90
+msgid "скидки"
+msgstr "discounts"
+
+#: .\app_news\models.py:91
+msgid "предложения"
+msgstr "offers"
+
+#: .\app_news\models.py:92
+msgid "история"
+msgstr "history"
+
+#: .\app_news\models.py:93
+msgid "магазины"
+msgstr "shops"
+
+#: .\app_news\models.py:96
+msgid "программа лояльности"
+msgstr "loyalty bonuses"
+
+#: .\app_news\models.py:97
+msgid "программы лояльности"
+msgstr "loyalty bonuses"
 
 #: .\app_news\templates\blog\blog_list.html:3
 msgid "Блог"
@@ -158,6 +182,34 @@ msgstr "Name:"
 #: .\app_news\templates\users\account.html:13
 msgid "Фамилия:"
 msgstr "Last name:"
+
+#: .\app_news\templates\users\loyalty_cabinet.html:7
+msgid "Кабинет лояльности"
+msgstr "Loyalty cabinet"
+
+#: .\app_news\templates\users\loyalty_cabinet.html:11
+msgid "Программа лояльности"
+msgstr "Loyalty bonuses"
+
+#: .\app_news\templates\users\loyalty_cabinet.html:12
+msgid "Ваш баланс:"
+msgstr "Your balance:"
+
+#: .\app_news\templates\users\loyalty_cabinet.html:17
+msgid "Ваши скидки:"
+msgstr "Your discounts:"
+
+#: .\app_news\templates\users\loyalty_cabinet.html:21
+msgid "Ваши предложения:"
+msgstr "Your offers:"
+
+#: .\app_news\templates\users\loyalty_cabinet.html:25
+msgid "Ваша история покупок:"
+msgstr "Your purchase history:"
+
+#: .\app_news\templates\users\loyalty_cabinet.html:29
+msgid "Ваши избранные магазины:"
+msgstr "Your favorite shops:"
 
 #: .\app_news\templates\users\register.html:6
 msgid "Регистрация"
