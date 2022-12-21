@@ -98,6 +98,30 @@ class Offers(models.Model):
         ordering = ['user']
 
 
+class Author(models.Model):
+    name = models.CharField(max_length=30, verbose_name=_('имя'))
+    surname = models.CharField(max_length=30, verbose_name=_('фамилия'))
+    birth_year = models.DateField(verbose_name=_('год рождения'))
+
+    class Meta:
+        verbose_name = _('автор')
+        verbose_name_plural = _('авторы')
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=100, verbose_name=_('название'))
+    isbn = models.IntegerField(max_length=13, verbose_name='ISBN')
+    release_year = models.DateField(verbose_name=_('дата выпуска'))
+    page_amount = models.IntegerField(verbose_name=_('количество страниц'))
+
+    class Meta:
+        verbose_name = _('книга')
+        verbose_name_plural = _('книги')
+
+
+
+
+
 
 
 
