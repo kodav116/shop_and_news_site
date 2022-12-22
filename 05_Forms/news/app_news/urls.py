@@ -5,6 +5,8 @@ from django.conf import settings
 from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, \
     login_view, AnotherLoginView, MainView, logout_view, AuthCommentaryForm, register_view, AccountView, \
     UpdateUserView, BlogListView, BlogFormView, update_blog, OffersView
+from rest_framework import routers
+from app_news.api import AuthorViewSet, BookViewSet
 
 
 urlpatterns = [
@@ -27,4 +29,6 @@ urlpatterns = [
     path('blog/new_blog_post/', BlogFormView.as_view(), name='new_blog_post'),
     path('profiles/update_user/<int:pk>/', UpdateUserView.as_view(), name='update_user'),
     path('blog/upload_blog_posts', update_blog, name='update_blog'),
+    path('api/authors/', AuthorViewSet.as_view(), name='author_view'),
+    path('api/books/', BookViewSet.as_view(), name='book_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
