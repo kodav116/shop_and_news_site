@@ -6,13 +6,12 @@ from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNew
     login_view, AnotherLoginView, MainView, logout_view, AuthCommentaryForm, register_view, AccountView, \
     UpdateUserView, BlogListView, BlogFormView, update_blog, OffersView
 from rest_framework import routers
-from app_news.api import AuthorViewSet, BookViewSet
+from app_news.api import AuthorViewSet, BookViewSet, AuthorDetail, BookDetail
 
 
 urlpatterns = [
     path('i18n', include('django.conf.urls.i18n')),
     path('', MainView.as_view(), name='main'),
-    path('admin/', admin.site.urls),
     path('profiles/news/', NewsFormView.as_view()),
     path('profiles/comment/', CommentaryFormView.as_view()),
     path('profiles/news_list/', NewsList.as_view()),
@@ -31,4 +30,6 @@ urlpatterns = [
     path('blog/upload_blog_posts', update_blog, name='update_blog'),
     path('api/authors/', AuthorViewSet.as_view(), name='author_view'),
     path('api/books/', BookViewSet.as_view(), name='book_view'),
+    path('api/authors/<int:pk>/', AuthorDetail.as_view(), name='author_detail'),
+    path('api/books/<int:pk/', BookDetail.as_view(), name='book_detail'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
