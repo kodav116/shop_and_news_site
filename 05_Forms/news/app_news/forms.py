@@ -1,5 +1,5 @@
 from django import forms
-from app_news.models import News, Commentary, BlogPost, BlogImage
+from app_news.models import News, Commentary, BlogPost, BlogImage, Offers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -73,6 +73,13 @@ class ExtendedRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = {'username', 'first_name', 'last_name', 'email', 'password1', 'password2',}
+
+
+class OffersForm(forms.ModelForm):
+    class Meta:
+        model = Offers
+        fields = ['balance']
+
 
 
 

@@ -4,10 +4,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.db.models import Sum, Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, \
-    PostFileForm, UploadBlogForm
+    PostFileForm, UploadBlogForm, OffersForm
 from app_news.models import News, Commentary, Profile, BlogPost, Offers
 from django.views import View
 from django.views.generic import UpdateView
@@ -214,20 +215,24 @@ class AccountView(View):
         return render(request, 'users/account.html')
 
 
-class OffersView(View):
+class UserCabinetView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            specials_cache_key = 'specials:'.format(request.user)
-            if specials_cache_key not in cache:
-                specials = Offers.objects.filter(user=request.user).values('specials')
-                cache.set(specials_cache_key, specials, 30*60)
-            context = {'discount_list': Offers.objects.filter(user=request.user).values('discounts'),
-                       'specials_list': Offers.objects.filter(user=request.user).values('specials'),
-                       'history_list': Offers.objects.filter(user=request.user).values('history'),
-                       'shops_list': Offers.objects.filter(user=request.user).values('shops'),
-                       'balance': Offers.objects.filter(user=request.user).values('balance')}
-            return render(request, 'users/loyalty_cabinet.html', context=context)
+            context = {'cabinet': Offers.objects.get(user=request.user)}
+            return render(request, 'users/user_cabinet.html', context=context)
         else:
             raise PermissionDenied
+
+
+def update_balance(request):
+    if request.method == 'POST':
+        form = OffersForm(request.POST)
+        if form.is_valid():
+            Offers.objects.values(user=request.user).annotate(Count('balance', distinct=True))
+        return HttpResponse('Баланс пополнен')
+    else:
+        form = OffersForm()
+    return render(request, 'users/update_balance.html', {'form': form})
+
 

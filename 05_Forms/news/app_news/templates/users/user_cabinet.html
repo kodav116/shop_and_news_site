@@ -1,0 +1,15 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans 'Кабинет пользователя' %}</title>
+</head>
+<body>
+    <p>{% trans 'Добро пожаловать,' %} {{ cabinet.user }}!</p>
+    <p>{% trans 'Баланс:' %} {{ cabinet.balance }}</p>
+    <p>{% trans 'Ваш уровень:' %} {{ cabinet.status }}</p>
+    <p>{% trans 'История покупок:' %} {{ cabinet.purchase_history }}</p>
+    <a href="{% url 'update_balance'%}">Пополнить баланс</a>
+</body>
+</html>

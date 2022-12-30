@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, \
     login_view, AnotherLoginView, MainView, logout_view, AuthCommentaryForm, register_view, AccountView, \
-    UpdateUserView, BlogListView, BlogFormView, update_blog, OffersView
+    UpdateUserView, BlogListView, BlogFormView, update_blog, UserCabinetView, update_balance
 from rest_framework import routers
 from app_news.api import AuthorViewSet, BookViewSet, AuthorDetail, BookDetail
 
@@ -22,7 +22,8 @@ urlpatterns = [
     path('profiles/another_login/', AnotherLoginView.as_view(), name='another_login'),
     path('users/register/', register_view, name='register'),
     path('users/account/', AccountView.as_view(), name='account'),
-    path('users/loyalty_cabinet/', OffersView.as_view(), name='loyalty_cabinet'),
+    path('users/user_cabinet/', UserCabinetView.as_view(), name='user_cabinet'),
+    path('users/update_balance/', update_balance, name='update_balance'),
     path('blog/blog_list/', BlogListView.as_view()),
     path('blog/<int:pk>/', BlogListView.blogdetail, name='blogdetail'),
     path('blog/new_blog_post/', BlogFormView.as_view(), name='new_blog_post'),

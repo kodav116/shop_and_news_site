@@ -85,17 +85,47 @@ class BlogPost(models.Model):
 
 
 class Offers(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('пользователь'))
-    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    discounts = models.CharField(max_length=500, verbose_name=_('скидки'), blank=True)
-    specials = models.CharField(max_length=500, verbose_name=_('предложения'), blank=True)
-    history = models.CharField(max_length=500, verbose_name=_('история'), blank=True)
-    shops = models.CharField(max_length=500, verbose_name=_('магазины'), blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('пользователь'), null=True, blank=True)
+    balance = models.IntegerField(default=0, verbose_name=_('баланс'))
+    BUYER_STATUS = (
+        (0, 'Common'),
+        (1, 'Preferred'),
+        (2, 'VIP'),
+    )
+    status = models.CharField(max_length=1, choices=BUYER_STATUS, default=0)
+    purchase_history = models.PositiveIntegerField(default=0, verbose_name=_('История покупок'))
 
     class Meta:
-        verbose_name = _('программа лояльности')
-        verbose_name_plural = _('программы лояльности')
+        verbose_name = _('кабинет пользователя')
+        verbose_name_plural = _('кабинеты пользователей')
         ordering = ['user']
+
+    def __str__(self):
+        return self.user
+
+
+class Shops(models.Model):
+    name = models.CharField(max_length=100, verbose_name=_('название магазина'))
+
+    class Meta:
+        verbose_name = _('магазин')
+        verbose_name_plural = _('магазины')
+
+    def __str__(self):
+        return self.name
+
+
+class Wares(models.Model):
+    name = models.CharField(max_length=50, verbose_name=_('название продукта'))
+    shop = models.ForeignKey(Shops, on_delete=models.CASCADE, verbose_name=_('продавец'))
+    price = models.IntegerField(default=0, verbose_name=_('цена'))
+
+    class Meta:
+        verbose_name = _('продукт')
+        verbose_name_plural = _('продукты')
+
+    def __str__(self):
+        return self.name
 
 
 class Author(models.Model):

@@ -64,8 +64,8 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 class OffersAdmin(admin.ModelAdmin):
-    list_display = ['user', 'discounts', 'specials']
-    list_filter = ['user', 'discounts', 'specials']
+    list_display = ['user', 'status']
+    list_filter = ['user', 'status']
 
 
 class AuthorAdmin(admin.ModelAdmin):
