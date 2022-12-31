@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.db.models import Sum, Count
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, \
     PostFileForm, UploadBlogForm, OffersForm
 from app_news.models import News, Commentary, Profile, BlogPost, Offers
@@ -226,13 +226,15 @@ class UserCabinetView(View):
 
 
 def update_balance(request):
-    if request.method == 'POST':
-        form = OffersForm(request.POST)
-        if form.is_valid():
-            Offers.objects.values(user=request.user).annotate(Count('balance', distinct=True))
-        return HttpResponse('Баланс пополнен')
-    else:
-        form = OffersForm()
+    offer = Offers.objects.get(user=request.user)
+    offers_id = offer.id
+    offer1 = get_object_or_404(Offers, id=offers_id)
+    form = OffersForm(request.POST or None, instance=offer1)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.balance += Offers.objects.get(user=request.user).balance
+        instance.save()
+        return redirect('user_cabinet')
     return render(request, 'users/update_balance.html', {'form': form})
 
 
