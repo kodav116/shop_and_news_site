@@ -119,6 +119,7 @@ class Wares(models.Model):
     name = models.CharField(max_length=50, verbose_name=_('название продукта'))
     shop = models.ForeignKey(Shops, on_delete=models.CASCADE, verbose_name=_('продавец'))
     price = models.IntegerField(default=0, verbose_name=_('цена'))
+    quantity = models.IntegerField(default=5, verbose_name=_('количество'))
 
     class Meta:
         verbose_name = _('продукт')

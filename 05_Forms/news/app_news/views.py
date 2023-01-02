@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, \
     PostFileForm, UploadBlogForm, OffersForm
-from app_news.models import News, Commentary, Profile, BlogPost, Offers
+from app_news.models import News, Commentary, Profile, BlogPost, Offers, Wares, Shops
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
@@ -78,7 +78,6 @@ def update_blog(request):
         'form': upload_blog_form
     }
     return render(request, 'blog/upload_blog_posts.html', context=context)
-
 
 
 class NewsFormView(View):
@@ -221,6 +220,16 @@ class UserCabinetView(View):
         if request.user.is_authenticated:
             context = {'cabinet': Offers.objects.get(user=request.user)}
             return render(request, 'users/user_cabinet.html', context=context)
+        else:
+            raise PermissionDenied
+
+
+class ShopListView(View):
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            context = {'wares': Wares.objects.all()}
+            return render(request, 'users/shop_list.html', context=context)
         else:
             raise PermissionDenied
 

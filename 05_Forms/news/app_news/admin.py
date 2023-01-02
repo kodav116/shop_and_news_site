@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_news.models import News, Commentary, BlogPost, BlogImage, Offers, Author, Book
+from app_news.models import News, Commentary, BlogPost, BlogImage, Offers, Author, Book, Shops, Wares
 from django.contrib.auth.models import User
 from django.template.defaultfilters import truncatechars
 
@@ -78,9 +78,21 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ['title', 'isbn', 'release_year', 'page_amount']
 
 
+class ShopAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_filter = ['name']
+
+
+class WaresAdmin(admin.ModelAdmin):
+    list_display = ['name', 'shop', 'quantity']
+    list_filter = ['shop']
+
+
 admin.site.register(BlogPost, BlogAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Commentary, CommentaryAdmin)
 admin.site.register(Offers, OffersAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(Shops, ShopAdmin)
+admin.site.register(Wares, WaresAdmin)

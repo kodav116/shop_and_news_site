@@ -1,10 +1,11 @@
+import patterns as patterns
 from django.conf.urls.static import static
 from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNewsView, \
     login_view, AnotherLoginView, MainView, logout_view, AuthCommentaryForm, register_view, AccountView, \
-    UpdateUserView, BlogListView, BlogFormView, update_blog, UserCabinetView, update_balance
+    UpdateUserView, BlogListView, BlogFormView, update_blog, UserCabinetView, update_balance, ShopListView
 from rest_framework import routers
 from app_news.api import AuthorViewSet, BookViewSet, AuthorDetail, BookDetail
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('users/account/', AccountView.as_view(), name='account'),
     path('users/user_cabinet/', UserCabinetView.as_view(), name='user_cabinet'),
     path('users/update_balance/', update_balance, name='update_balance'),
+    path('users/shop_list/', ShopListView.as_view(), name='shop_list'),
     path('blog/blog_list/', BlogListView.as_view()),
     path('blog/<int:pk>/', BlogListView.blogdetail, name='blogdetail'),
     path('blog/new_blog_post/', BlogFormView.as_view(), name='new_blog_post'),

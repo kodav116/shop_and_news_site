@@ -1,0 +1,16 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Товары</title>
+</head>
+<body>
+     <ul>
+        {% for ware in wares %}
+            <li>Название продукта: '{{ ware.name }}' Продает: {{ ware.shop }} Цена: {{ ware.price }} руб.
+                В наличии - {{ ware.quantity }} шт. </li>
+            {% add_basket_button object 'button_text' 'added_text' 'already_in_text' 'template_name' %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
