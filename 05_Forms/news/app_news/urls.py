@@ -8,6 +8,7 @@ from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNew
     UpdateUserView, BlogListView, BlogFormView, update_blog, UserCabinetView, update_balance, ShopListView
 from rest_framework import routers
 from app_news.api import AuthorViewSet, BookViewSet, AuthorDetail, BookDetail
+from . import views
 
 
 urlpatterns = [
@@ -35,4 +36,10 @@ urlpatterns = [
     path('api/books/', BookViewSet.as_view(), name='book_view'),
     path('api/authors/<int:pk>/', AuthorDetail.as_view(), name='author_detail'),
     path('api/books/<int:pk/', BookDetail.as_view(), name='book_detail'),
+    path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
+    path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),
+    path('cart/item_increment/<int:id>/', views.item_increment, name='item_increment'),
+    path('cart/item_decrement/<int:id>/', views.item_decrement, name='item_decrement'),
+    path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
+    path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

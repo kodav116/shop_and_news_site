@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django import forms
 from django.urls import reverse
 from django.template.defaultfilters import truncatechars
 from django.utils.translation import gettext_lazy as _
+
 
 
 class News(models.Model):
@@ -115,11 +115,13 @@ class Shops(models.Model):
         return self.name
 
 
-class Wares(models.Model):
-    name = models.CharField(max_length=50, verbose_name=_('название продукта'))
+class Product(models.Model):
+    name = models.CharField(max_length=255, verbose_name=_('название продукта'))
     shop = models.ForeignKey(Shops, on_delete=models.CASCADE, verbose_name=_('продавец'))
-    price = models.IntegerField(default=0, verbose_name=_('цена'))
+    price = models.FloatField(verbose_name=_('цена'))
     quantity = models.IntegerField(default=5, verbose_name=_('количество'))
+    image = models.ImageField(null=True, blank=True, upload_to='files/', verbose_name=_('картинка'))
+    sales = models.IntegerField(default=0, verbose_name=_('Продажи'))
 
     class Meta:
         verbose_name = _('продукт')
@@ -149,6 +151,11 @@ class Book(models.Model):
         verbose_name = _('книга')
         verbose_name_plural = _('книги')
 
+
+class ProductProxy(Product):
+    class Meta:
+        verbose_name, verbose_name_plural = "отчет", "отчеты"
+        proxy = True
 
 
 

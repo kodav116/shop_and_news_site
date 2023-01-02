@@ -1,0 +1,13 @@
+{% load cart_tag %}
+<head>
+    <title>Корзина</title>
+</head>
+Кол-во продуктов в корзине: {{request.session.cart|length}}<br>
+{% for key,value in request.session.cart.items %}
+    <img src="{{value.image}}" width="120" height="80"><br>
+    Продукт: {{value.name}}<br>
+    Цена за 1 шт.: {{value.price}} руб.<br>
+    Кол-во: {{value.quantity}}<br>
+    Цена всего: {{ value.price|multiply:value.quantity }} руб.<br><br>
+    <a href="{% url 'item_decrement' value.product_id %}">Заказать</a>
+{% endfor %}
