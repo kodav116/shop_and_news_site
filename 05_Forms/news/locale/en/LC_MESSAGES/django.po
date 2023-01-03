@@ -183,31 +183,31 @@ msgstr "Name:"
 msgid "Фамилия:"
 msgstr "Last name:"
 
-#: .\app_news\templates\users\loyalty_cabinet.html:7
+#: .\app_news\templates\users\user_cabinet.html:7
 msgid "Кабинет лояльности"
 msgstr "Loyalty cabinet"
 
-#: .\app_news\templates\users\loyalty_cabinet.html:11
+#: .\app_news\templates\users\user_cabinet.html:11
 msgid "Программа лояльности"
 msgstr "Loyalty bonuses"
 
-#: .\app_news\templates\users\loyalty_cabinet.html:12
+#: .\app_news\templates\users\user_cabinet.html:12
 msgid "Ваш баланс:"
 msgstr "Your balance:"
 
-#: .\app_news\templates\users\loyalty_cabinet.html:17
+#: .\app_news\templates\users\user_cabinet.html:17
 msgid "Ваши скидки:"
 msgstr "Your discounts:"
 
-#: .\app_news\templates\users\loyalty_cabinet.html:21
+#: .\app_news\templates\users\user_cabinet.html:21
 msgid "Ваши предложения:"
 msgstr "Your offers:"
 
-#: .\app_news\templates\users\loyalty_cabinet.html:25
+#: .\app_news\templates\users\user_cabinet.html:25
 msgid "Ваша история покупок:"
 msgstr "Your purchase history:"
 
-#: .\app_news\templates\users\loyalty_cabinet.html:29
+#: .\app_news\templates\users\user_cabinet.html:29
 msgid "Ваши избранные магазины:"
 msgstr "Your favorite shops:"
 

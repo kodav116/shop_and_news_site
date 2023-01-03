@@ -1,18 +1,18 @@
 from _csv import reader
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from app_news.forms import NewsForm, CommentaryForm, AuthForm, AuthCommentaryForm, ExtendedRegisterForm, \
-    PostFileForm, UploadBlogForm
-from app_news.models import News, Commentary, Profile, BlogPost, Offers
+    PostFileForm, UploadBlogForm, OffersForm
+from app_news.models import News, Commentary, Profile, BlogPost, Offers, Product, Shops
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
-from django.core.cache import cache
+from cart.cart import Cart
 
 
 class MainView(View):
@@ -77,7 +77,6 @@ def update_blog(request):
         'form': upload_blog_form
     }
     return render(request, 'blog/upload_blog_posts.html', context=context)
-
 
 
 class NewsFormView(View):
@@ -214,20 +213,93 @@ class AccountView(View):
         return render(request, 'users/account.html')
 
 
-class OffersView(View):
+class UserCabinetView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            specials_cache_key = 'specials:'.format(request.user)
-            if specials_cache_key not in cache:
-                specials = Offers.objects.filter(user=request.user).values('specials')
-                cache.set(specials_cache_key, specials, 30*60)
-            context = {'discount_list': Offers.objects.filter(user=request.user).values('discounts'),
-                       'specials_list': Offers.objects.filter(user=request.user).values('specials'),
-                       'history_list': Offers.objects.filter(user=request.user).values('history'),
-                       'shops_list': Offers.objects.filter(user=request.user).values('shops'),
-                       'balance': Offers.objects.filter(user=request.user).values('balance')}
-            return render(request, 'users/loyalty_cabinet.html', context=context)
+            context = {'cabinet': Offers.objects.get(user=request.user)}
+            return render(request, 'users/user_cabinet.html', context=context)
         else:
             raise PermissionDenied
+
+
+class ShopListView(View):
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            context = {'wares': Product.objects.all()}
+            return render(request, 'users/shop_list.html', context=context)
+        else:
+            raise PermissionDenied
+
+
+def update_balance(request):
+    offer = Offers.objects.get(user=request.user)
+    offers_id = offer.id
+    offer1 = get_object_or_404(Offers, id=offers_id)
+    form = OffersForm(request.POST or None, instance=offer1)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.balance += Offers.objects.get(user=request.user).balance
+        instance.save()
+        return redirect('user_cabinet')
+    return render(request, 'users/update_balance.html', {'form': form})
+
+
+@login_required
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("shop_list")
+
+
+@login_required
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product)
+    return redirect("cart_detail")
+
+
+@login_required
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+
+@login_required
+def item_decrement(request, id):
+    cabinet = Offers.objects.get(user=request.user)
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    if product:
+        cabinet.balance -= product.price
+        cabinet.purchase_history += product.price
+        product.sales += 1
+        product.quantity -= 1
+        if cabinet.purchase_history >= 10000:
+            cabinet.status = 1
+        if cabinet.purchase_history >= 100000:
+            cabinet.status = 2
+        cabinet.save()
+        product.save()
+    cart.decrement(product=product)
+    return redirect("cart_detail")
+
+
+@login_required
+def cart_clear(request):
+    cabinet = Offers.objects.get(user=request.user)
+    cart1 = Cart(request)
+    cart1.clear()
+    return redirect("cart_detail")
+
+
+@login_required
+def cart_detail(request):
+    return render(request, 'cart/cart_detail.html')
+
 

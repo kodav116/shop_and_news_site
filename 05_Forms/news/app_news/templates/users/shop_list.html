@@ -1,0 +1,21 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Товары</title>
+</head>
+<body>
+     <ul>
+        {% for ware in wares %}
+            <li>Название продукта: '{{ ware.name }}' Продает: {{ ware.shop }} Цена: {{ ware.price }} руб.
+                В наличии - {{ ware.quantity }} шт. </li>
+            {% if ware.quantity > 0 %}
+            <a href="{% url 'cart_add' ware.id %}">В Корзину</a>
+            {% else %}
+            Нет в наличии
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'cart_detail' %}">Перейти в корзину</a></p>
+</body>
+</html>

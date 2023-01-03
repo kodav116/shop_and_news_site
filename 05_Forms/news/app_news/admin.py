@@ -1,7 +1,8 @@
 from django.contrib import admin
-from app_news.models import News, Commentary, BlogPost, BlogImage, Offers, Author, Book
-from django.contrib.auth.models import User
-from django.template.defaultfilters import truncatechars
+from app_news.models import News, Commentary, BlogPost, BlogImage, Offers, Author, Book, Shops, Product, \
+    ProductProxy
+from django.db.models import Sum
+from admin_report.mixins import ChartReportAdmin
 
 
 class NewsInLine(admin.StackedInline):
@@ -64,8 +65,8 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 class OffersAdmin(admin.ModelAdmin):
-    list_display = ['user', 'discounts', 'specials']
-    list_filter = ['user', 'discounts', 'specials']
+    list_display = ['user', 'status']
+    list_filter = ['user', 'status']
 
 
 class AuthorAdmin(admin.ModelAdmin):
@@ -78,9 +79,33 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ['title', 'isbn', 'release_year', 'page_amount']
 
 
-admin.site.register(BlogPost, BlogAdmin)
+class ShopAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_filter = ['name']
+
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', 'shop', 'quantity']
+    list_filter = ['shop']
+
+
+class ReportOrderItemsAdmin(ChartReportAdmin):
+    list_display = ('id', 'name', 'sales__sum')
+
+    report_annotates = (
+        ("sales", Sum, "всего продано"),
+    )
+
+    report_aggregates = (
+        ('sales', Sum, "всего продано"),
+    )
+
+
+admin.site.register(ProductProxy, ReportOrderItemsAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Commentary, CommentaryAdmin)
 admin.site.register(Offers, OffersAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(Shops, ShopAdmin)
+admin.site.register(Product, ProductAdmin)
