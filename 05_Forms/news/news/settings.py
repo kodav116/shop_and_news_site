@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'cart',
     'admin_report',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'news.urls'
@@ -153,3 +155,23 @@ SESSION_COOKIE_AGE = 30 * 24 * 60 * 60
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files/')
 
 MEDIA_URL = '/files/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log'
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
+        'propagate': True
+    },
+}
+
+INTERNAL_IPS = [
+    '127.0.0.1'
+]

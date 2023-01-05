@@ -13,6 +13,9 @@ from django.views import View
 from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
 from cart.cart import Cart
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class MainView(View):
@@ -162,6 +165,7 @@ def login_view(request):
             if user:
                 if user.is_active:
                     login(request, user)
+                    logger.info(f'Пользователь {request.user} аутентифицирован успешно.')
                     return HttpResponse('Вы успешно вошли в систему.')
                 else:
                     auth_form.add_error('__all__', 'Ошибка! Учетная запись не активна.')
@@ -217,6 +221,7 @@ class UserCabinetView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
+            logger.info('Пользователь аутентифицирован. Открываем кабинет пользователя.')
             context = {'cabinet': Offers.objects.get(user=request.user)}
             return render(request, 'users/user_cabinet.html', context=context)
         else:
@@ -227,7 +232,8 @@ class ShopListView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            context = {'wares': Product.objects.all()}
+            logger.info('Пользователь аутентифицирован. Открываем список товаров.')
+            context = {'wares': Product.objects.select_related('shop').all()}
             return render(request, 'users/shop_list.html', context=context)
         else:
             raise PermissionDenied
@@ -242,6 +248,7 @@ def update_balance(request):
         instance = form.save(commit=False)
         instance.balance += Offers.objects.get(user=request.user).balance
         instance.save()
+        logger.info('Баланс пополнен успешно.')
         return redirect('user_cabinet')
     return render(request, 'users/update_balance.html', {'form': form})
 
@@ -277,15 +284,19 @@ def item_decrement(request, id):
     product = Product.objects.get(id=id)
     if product:
         cabinet.balance -= product.price
+        logger.info(f'С баланса списано {product.price} баллов.')
         cabinet.purchase_history += product.price
         product.sales += 1
         product.quantity -= 1
         if cabinet.purchase_history >= 10000:
             cabinet.status = 1
+            logger.info(f'Cтатус {cabinet.user} теперь равен {cabinet.status}')
         if cabinet.purchase_history >= 100000:
             cabinet.status = 2
+            logger.info(f'Cтатус {cabinet.user} теперь равен {cabinet.status}')
         cabinet.save()
         product.save()
+        logger.info('Товар куплен успешно.')
     cart.decrement(product=product)
     return redirect("cart_detail")
 
