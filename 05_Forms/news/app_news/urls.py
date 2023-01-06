@@ -9,6 +9,7 @@ from app_news.views import NewsFormView, CommentaryFormView, NewsList, UpdateNew
 from rest_framework import routers
 from app_news.api import AuthorViewSet, BookViewSet, AuthorDetail, BookDetail
 from . import views
+import debug_toolbar
 
 
 urlpatterns = [
@@ -41,5 +42,6 @@ urlpatterns = [
     path('cart/item_increment/<int:id>/', views.item_increment, name='item_increment'),
     path('cart/item_decrement/<int:id>/', views.item_decrement, name='item_decrement'),
     path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
-    path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
+    path('cart/cart-detail/',views.cart_detail, name='cart_detail'),
+    path('__debug__/', include(debug_toolbar.urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
