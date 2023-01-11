@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views import View
+from django.views import View, generic
 from app_apartment.models import Apartment, RoomType, ApartmentNews
 
 
@@ -9,10 +9,9 @@ class AboutView(View):
         return render(request, 'about.html')
 
 
-class ApartmentListView(View):
-
-    def get(self, request):
-        return render(request, 'apartment_list.html')
+class ApartmentListView(generic.ListView):
+    model = RoomType
+    template_name = 'apartment_list.html'
 
 
 class ContactView(View):
@@ -21,10 +20,9 @@ class ContactView(View):
         return render(request, 'contact.html')
 
 
-class NewsFeedView(View):
-
-    def get(self, request):
-        return render(request, 'news_feed.html')
+class NewsFeedView(generic.DetailView):
+    model = ApartmentNews
+    template_name = 'news_feed.html'
 
 
 
