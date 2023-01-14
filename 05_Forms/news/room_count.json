@@ -1,0 +1,1 @@
+[{"model": "app_apartment.roomcount", "pk": 1, "fields": {"count": 1}}, {"model": "app_apartment.roomcount", "pk": 2, "fields": {"count": 2}}, {"model": "app_apartment.roomcount", "pk": 3, "fields": {"count": 3}}, {"model": "app_apartment.roomcount", "pk": 4, "fields": {"count": 4}}, {"model": "app_apartment.roomcount", "pk": 5, "fields": {"count": 5}}]

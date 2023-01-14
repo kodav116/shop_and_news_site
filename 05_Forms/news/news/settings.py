@@ -41,13 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     'rest_framework',
     'django_filters',
     'drf_yasg',
     'cart',
     'admin_report',
     'debug_toolbar',
+    'app_apartment',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

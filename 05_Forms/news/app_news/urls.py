@@ -43,5 +43,6 @@ urlpatterns = [
     path('cart/item_decrement/<int:id>/', views.item_decrement, name='item_decrement'),
     path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
     path('cart/cart-detail/',views.cart_detail, name='cart_detail'),
-    path('__debug__/', include(debug_toolbar.urls))
+    path('__debug__/', include(debug_toolbar.urls)),
+    path('apartments/', include('app_apartment.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

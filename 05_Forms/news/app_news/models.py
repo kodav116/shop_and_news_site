@@ -5,7 +5,6 @@ from django.template.defaultfilters import truncatechars
 from django.utils.translation import gettext_lazy as _
 
 
-
 class News(models.Model):
     STATUS_CHOICES = [
         ('a', 'Active'),
